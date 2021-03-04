@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %}
+{% endblock %}
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <div class="container">
+
+            <section id="portfolio">
+                <div class="row">
+                    <div class="col-lg-12 offset-xl-0 text-center">
+                        <h2 class="text-uppercase section-heading">Графики</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <canvas id="ChartHeartBeat"></canvas>
+
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+                        <script>
+                            var ConfigForHeartBeat = {
+                                type: 'line',
+                                data: {
+                                    datasets: [{
+                                        data: {{ DataHeartBeat|safe }},
+                                        backgroundColor: [
+                                            '#de861c'
+                                        ],
+                                        label: 'Сердцебиение'
+                                    }],
+                                    labels: {{ label|safe }}
+                                },
+                                options: {
+                                    responsive: true
+                                }
+
+                            };
+                        </script>
+                    </div>
+                    <div class="col">
+                        <canvas id="CharCondition"></canvas>
+
+                        <script>
+                            var ConfigForCondition = {
+                                type: 'line',
+                                data: {
+                                    datasets: [{
+                                        data: {{ DataCondition|safe }},
+                                        backgroundColor: [
+                                            '#de861c'
+                                        ],
+                                        label: 'Сердцебиение'
+                                    }],
+                                    labels: {{ label|safe }}
+                                },
+                                options: {
+                                    responsive: true
+                                }
+                            };
+                            window.onload = function () {
+                                var ctx1 = document.getElementById('CharCondition').getContext('2d');
+                                window.myCharCondition = new Chart(ctx1, ConfigForCondition);
+                                var ctx = document.getElementById('ChartHeartBeat').getContext('2d');
+                                window.myChartHeartBeat = new Chart(ctx, ConfigForHeartBeat);
+                            };
+                        </script>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 offset-xl-0 text-center">
+                        <h3 class="section-subheading text-muted"></h3>
+                        <h2 class="text-uppercase section-heading">Таблица данных</h2>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Сердцебиение (удары в минуту)</th>
+                        <th scope="col">Состояние животного</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in CowDetail %}
+                        <tr>
+                            <th scope="row">{{ item.pk }}</th>
+                            <td>{{ item.HeartBeat }}</td>
+                            <td>{{ item.CowCondition }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    {% else %}
+        <dev class="mx-auto w-100">
+            <div class="container">
+                <div class="row my-5 mx-n5">
+                    <a type="button" class="btn btn-dark btn-lg btn-block mr-auto ml-3" href="{% url 'MyLogin' %}">Войти
+                        в систему</a>
+                    <a type="button" class="btn btn-dark btn-lg btn-block mr-auto ml-3"
+                       href="{% url 'MyRegister' %}">Зарегистрироваться</a>
+                </div>
+            </div>
+        </dev>
+        </div>
+    {% endif %}
+{% endblock %}

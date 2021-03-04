@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{% endblock %}
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <section id="portfolio" class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 offset-xl-0 text-center">
+                    <h2 class="text-uppercase section-heading">Подключенные датчики</h2>
+                    <h3 class="section-subheading text-muted"></h3>
+                </div>
+            </div>
+            <div class="row">
+                {% for cow in Cows %}
+                    <div class="col-sm-6 col-md-4 portfolio-item">
+                        <a class="portfolio-link" href="{% url 'DetailCow' cow.username %}">
+                            <div class="portfolio-hover">
+                                <div class="portfolio-hover-content">
+                                    <i class="fa fa-table fa-3x"
+                                       style="height: 100px;width: 130px;padding: 10;font-size: 100px;"></i>
+                                    <i class="fa fa-area-chart fa-3x"
+                                       style="width: 130px;height: 100px;font-size: 100px;"></i>
+                                </div>
+                            </div>
+                            <img class="img-fluid" src="{% static 'img/background.jpg' %}">
+                        </a>
+                        <div class="portfolio-caption">
+                            <h4>{{ cow.username }}</h4>
+                            <p class="text-muted">Удары в минуты - 100 </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <section id="portfolio" class="bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 offset-xl-0 text-center">
+                        <a type="button" class="btn btn-dark btn-lg btn-block mr-auto ml-3" href="{% url 'MyLogin' %}">Войти
+                            в систему</a>
+                        <a type="button" class="btn btn-dark btn-lg btn-block mr-auto ml-3"
+                           href="{% url 'MyRegister' %}">Зарегистрироваться</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}
+
+
+
+{#{% extends 'base.html' %}#}
+{#{% block title %}#}
+{#{% endblock %}#}
+{#{% block content %}#}
+{#    {% if request.user.is_authenticated %}#}
+{#        <div class="row">#}
+{#            {% for cow in Cows %}#}
+{#                <div class="col-sm-3">#}
+{#                    <dev class="m-lg-4">#}
+{#                        <div class="card text" style="width: 18rem;">#}
+{#                            <div class="card-body">#}
+{#                                <h4 class="card-title">{{ cow.username }}</h4>#}
+{#                                <p class="card-text"> Удары в минуты - 100 </p>#}
+{#                                <a href="{% url 'DetailCow' cow.username 'table'  %}" class="btn btn-dark">Таблица</a>#}
+{#                                <a href="{% url 'DetailCow' cow.username 'chart' %}" class="btn btn-dark">График</a>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </dev>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    {% else %}#}
+{#        <dev class="mx-auto w-100">#}
+{#            <div class="container">#}
+{#                <div class="row my-5 mx-n5">#}
+{#                    <a type="button" class="btn btn-dark btn-lg btn-block mr-auto ml-3" href="{% url 'MyLogin' %}">Войти#}
+{#                        в систему</a>#}
+{#                    <a type="button" class="btn btn-dark btn-lg btn-block mr-auto ml-3"#}
+{#                       href="{% url 'MyRegister' %}">Зарегистрироваться</a>#}
+{#                </div>#}
+{#            </div>#}
+{#        </dev>#}
+{#    {% endif %}#}
+{#{% endblock %}#}
